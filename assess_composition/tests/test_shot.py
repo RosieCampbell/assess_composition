@@ -40,6 +40,16 @@ class TestShot(TestCase):
         actual = Shot(img).vertical_thirds()[1]
         self.assertEquals(actual, ((1280,0),(1280, 1080)))
 
+    def test_get_first_vertical_third_value(self):
+        img = np.zeros((1080,1920,1), np.uint8)
+        actual = Shot(img).get_third("h", 0)
+        self.assertEqual(actual, 360)
+
+    def test_get_first_horizontal_third_value(self):
+        img = np.zeros((1080,1920,1), np.uint8)
+        actual = Shot(img).get_third("v", 0)
+        self.assertEqual(actual, 640)
+
     def test_detect_faces(self):
         img = cv2.imread('assess_composition/tests/imgs/test.png')
         actual = Shot(img).get_faces()[0]

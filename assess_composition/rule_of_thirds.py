@@ -21,6 +21,15 @@ def draw_boxes(shot):
         cv2.rectangle(shot.frame, (box[0], box[1]), (box[2], box[3]), (127, 255, 0), 2)
     return shot
 
+def report_overlap(shot):
+    count = 0
+    for face in shot.get_faces():
+        count = count + 1
+        print shot.get_third('v',0), face[0], face[2]
+        if check_overlap(shot.get_third('v',1), (face[0],face[2])):
+            return "Face %d overlaps horizontal 1 vertical 2" % (count)
+    return "Does not lie on thirds"
+
 def main(path):
     img = cv2.imread(path)
     shot = Shot(img)
@@ -28,7 +37,6 @@ def main(path):
     draw_lines(shot)
     cv2.imwrite('out.png', shot.frame)
     return img
-
 
 if __name__ == "__main__":
     main()

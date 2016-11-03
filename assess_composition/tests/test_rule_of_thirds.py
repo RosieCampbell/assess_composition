@@ -39,7 +39,14 @@ class TestRuleOfThirds(TestCase):
         cv2.line(expected.frame, (0, 720), (1920, 720), (0,0,255), 2)
         self.assertTrue((actual.frame==expected.frame).all())
 
+    def test_face_overlap_status(self):
+        expected = "Face 1 overlaps horizontal 1 vertical 2"
+        img = cv2.imread('assess_composition/tests/imgs/testoutput.png')
+        shot = Shot(img)
+        actual = thirds.report_overlap(shot)
+        self.assertEqual(actual,expected)
+
     def test_main(self):
         expected = thirds.main('assess_composition/tests/imgs/test.png')
         actual = cv2.imread('assess_composition/tests/imgs/testoutput.png')
-        self.assertEquals((actual==expected).all(), True)
+        self.assertTrue((actual==expected).all())

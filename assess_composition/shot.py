@@ -9,8 +9,8 @@ class Shot:
         self.height = self.frame.shape[0]
 
     def horizontal_thirds(self):
-        first_horizontal_third = ((0, self.height/3),(self.width, self.height/3))
-        second_horizontal_third = ((0,2*self.height/3),(self.width,2*self.height/3))
+        first_horizontal_third = ((0, self._calculate_thirds(self.height)[0]),(self.width, self._calculate_thirds(self.height)[0]))
+        second_horizontal_third = ((0, self._calculate_thirds(self.height)[1]),(self.width, self._calculate_thirds(self.height)[1]))
         return (first_horizontal_third,second_horizontal_third)
 
     def vertical_thirds(self):
@@ -25,3 +25,12 @@ class Shot:
             return []
         rects[:, 2:] += rects[:, :2]
         return rects
+
+    def get_third(self, orientation, num):
+        if orientation == "h":
+            return self._calculate_thirds(self.height)[num]
+        if orientation == "v":
+            return self._calculate_thirds(self.width)[num]
+
+    def _calculate_thirds(self, num):
+        return (num/3, 2*num/3)
