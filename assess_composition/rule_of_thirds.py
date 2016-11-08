@@ -23,18 +23,20 @@ def draw_boxes(shot):
 
 def report_overlap(shot):
     count = 0
+    status = "No faces found"
+    state = ""
     for face in shot.get_faces():
         count = count + 1
-        status = "Face %d overlaps " % (count)
-        if check_overlap(shot.get_third('v',0), (face[0],face[2])):
-            return status + "vertical 1"
-        if check_overlap(shot.get_third('v',1), (face[0],face[2])):
-            return status + "vertical 2"
-        if check_overlap(shot.get_third('h',0), (face[1],face[3])):
-            return status + "horizontal 1"
-        if check_overlap(shot.get_third('h',1), (face[1],face[3])):
-            return status + "horizontal 2"
-    return "Does not lie on thirds"
+        status = "Face %d overlaps:" % (count)
+        for x in range(0, 2):
+            if check_overlap(shot.get_third('v',x), (face[0],face[2])):
+                state = state + "\nVertical %d" % (x+1)
+            if check_overlap(shot.get_third('h',x), (face[1],face[3])):
+                state = state + "\nHorizontal %d" % (x+1)
+
+        if state == "":
+            state = "\nno overlap"
+    return status + state
 
 def main(path):
     img = cv2.imread(path)
