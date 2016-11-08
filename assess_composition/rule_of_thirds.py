@@ -25,9 +25,15 @@ def report_overlap(shot):
     count = 0
     for face in shot.get_faces():
         count = count + 1
-        print shot.get_third('v',0), face[0], face[2]
+        status = "Face %d overlaps " % (count)
+        if check_overlap(shot.get_third('v',0), (face[0],face[2])):
+            return status + "vertical 1"
         if check_overlap(shot.get_third('v',1), (face[0],face[2])):
-            return "Face %d overlaps horizontal 1 vertical 2" % (count)
+            return status + "vertical 2"
+        if check_overlap(shot.get_third('h',0), (face[1],face[3])):
+            return status + "horizontal 1"
+        if check_overlap(shot.get_third('h',1), (face[1],face[3])):
+            return status + "horizontal 2"
     return "Does not lie on thirds"
 
 def main(path):

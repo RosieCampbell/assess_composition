@@ -40,13 +40,34 @@ class TestRuleOfThirds(TestCase):
         self.assertTrue((actual.frame==expected.frame).all())
 
     def test_face_overlap_status(self):
-        expected = "Face 1 overlaps horizontal 1 vertical 2"
-        img = cv2.imread('assess_composition/tests/imgs/testoutput.png')
+        expected = "Face 1 overlaps vertical 2"
+        img = cv2.imread('assess_composition/tests/imgs/facewidth2height1.png')
+        shot = Shot(img)
+        actual = thirds.report_overlap(shot)
+        self.assertEqual(actual,expected)
+
+    def test_face_no_overlap_status(self):
+        expected = "Does not lie on thirds"
+        img = cv2.imread('assess_composition/tests/imgs/facenothirds.png')
+        shot = Shot(img)
+        actual = thirds.report_overlap(shot)
+        self.assertEqual(actual,expected)
+
+    def test_face_vert_overlap_status(self):
+        expected = "Face 1 overlaps vertical 1"
+        img = cv2.imread('assess_composition/tests/imgs/facevert1.png')
+        shot = Shot(img)
+        actual = thirds.report_overlap(shot)
+        self.assertEqual(actual,expected)
+
+    def test_face_hor_overlap_status(self):
+        expected = "Face 1 overlaps horizontal 1"
+        img = cv2.imread('assess_composition/tests/imgs/facehor1.png')
         shot = Shot(img)
         actual = thirds.report_overlap(shot)
         self.assertEqual(actual,expected)
 
     def test_main(self):
-        expected = thirds.main('assess_composition/tests/imgs/test.png')
+        expected = thirds.main('assess_composition/tests/imgs/facewidth2height1.png')
         actual = cv2.imread('assess_composition/tests/imgs/testoutput.png')
         self.assertTrue((actual==expected).all())

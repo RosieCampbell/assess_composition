@@ -6,7 +6,7 @@ from assess_composition.shot import Shot
 class TestShot(TestCase):
 
     def test_create_shot(self):
-        img = cv2.imread('assess_composition/tests/imgs/test.png')
+        img = cv2.imread('assess_composition/tests/imgs/facewidth2height1.png')
         actual = Shot(img).frame
         self.assertTrue((actual==img).all())
 
@@ -51,7 +51,7 @@ class TestShot(TestCase):
         self.assertEqual(actual, 640)
 
     def test_detect_faces(self):
-        img = cv2.imread('assess_composition/tests/imgs/test.png')
+        img = cv2.imread('assess_composition/tests/imgs/facewidth2height1.png')
         actual = Shot(img).get_faces()[0]
         expected = np.array([1201, 152, 1442, 393])
         self.assertTrue((actual==expected).all())
